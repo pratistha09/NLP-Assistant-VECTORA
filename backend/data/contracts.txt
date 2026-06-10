@@ -1,0 +1,13 @@
+Vendor: ABC Technologies
+
+Contract Value: ₹15,00,000
+
+Duration: 24 Months
+
+Payment Terms:
+Monthly
+
+Services:
+Software Development
+Technical Support
+Maintenance
