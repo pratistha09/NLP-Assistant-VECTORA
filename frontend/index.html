@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Procurement Assistant - VECTORA</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Style Sheets -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="logo-icon">
+                    <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- VECTORA Logo -->
+                        <defs>
+                            <linearGradient id="vectora-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#1d4ed8;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Outer rotating square -->
+                        <rect x="4" y="4" width="34" height="34" rx="6" fill="none" stroke="url(#vectora-grad)" stroke-width="1.5" opacity="0.8"/>
+                        <!-- Inner cube/3D effect -->
+                        <path d="M 21 10 L 32 16 L 32 26 L 21 32 L 10 26 L 10 16 Z" fill="url(#vectora-grad)" opacity="0.9"/>
+                        <path d="M 21 10 L 32 16 L 26 20 L 21 16 Z" fill="white" opacity="0.3"/>
+                        <!-- Central V shape -->
+                        <text x="21" y="26" font-family="Outfit, sans-serif" font-size="14" font-weight="800" text-anchor="middle" fill="white" letter-spacing="-0.5">V</text>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <h2>VECTORA</h2>
+                    <p>NLP Assistant</p>
+                </div>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-tab="overview">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Overview</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="email">
+                    <i class="fa-solid fa-envelope-open-text"></i>
+                    <span>Email Analyzer</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="invoice">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                    <span>Invoice Extractor</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="contract">
+                    <i class="fa-solid fa-file-contract"></i>
+                    <span>Contract Summarizer</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="chatbot">
+                    <i class="fa-solid fa-comments"></i>
+                    <span>Contract Chat (RAG)</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="api-settings">
+                    <i class="fa-solid fa-code"></i>
+                    <span>Developer & Settings</span>
+                </a>
+            </nav>
+            
+            <div class="connection-status" id="connection-status">
+                <span class="status-indicator online"></span>
+                <span class="status-text">Backend Connected</span>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="content-header">
+                <div class="header-title">
+                    <h1 id="page-title">Procurement Intelligence Overview</h1>
+                    <p id="page-subtitle">Interactive NLP Hub and developer playground for procurement operations.</p>
+                </div>
+                <div class="api-mode-badge" id="api-mode-badge">
+                    <i class="fa-solid fa-bolt"></i>
+                    <span>Offline Mode</span>
+                </div>
+            </header>
+
+            <!-- TAB 1: OVERVIEW -->
+            <section id="tab-overview" class="tab-panel active">
+                <div class="overview-grid">
+                    <div class="welcome-card card-glass">
+                        <div class="card-body">
+                            <h2>Welcome to the VECTORA NLP Hub</h2>
+                            <p>This workspace showcases professional Natural Language Processing (NLP) tools tailored for automated procurement workflows. Use the side menu to run test cases on raw text or uploaded documents.</p>
+                            <div class="tech-tags">
+                                <span class="tag"><i class="fa-brands fa-python"></i> FastAPI</span>
+                                <span class="tag"><i class="fa-solid fa-brain"></i> Hugging Face</span>
+                                <span class="tag"><i class="fa-solid fa-cube"></i> SpaCy</span>
+                                <span class="tag"><i class="fa-solid fa-database"></i> FAISS</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-panel">
+                        <div class="stat-box card-glass">
+                            <i class="fa-solid fa-server icon-blue"></i>
+                            <div class="stat-info">
+                                <h3>API Endpoints</h3>
+                                <p class="stat-val">5 Active</p>
+                            </div>
+                        </div>
+                        <div class="stat-box card-glass">
+                            <i class="fa-solid fa-brain icon-green"></i>
+                            <div class="stat-info">
+                                <h3>Local Processing</h3>
+                                <p class="stat-val" id="model-status">Hybrid CPU</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card card-glass" onclick="switchTab('email')">
+                        <div class="feature-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
+                        <h3>Email Tone & Classification</h3>
+                        <p>Analyze emails for sentiment (positive/negative), procurement category, priority, and automatically parse key dates and action items.</p>
+                        <span class="learn-more">Open Analyzer <i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+
+                    <div class="feature-card card-glass" onclick="switchTab('invoice')">
+                        <div class="feature-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                        <h3>Invoice Parser</h3>
+                        <p>Upload PDF/text invoices to extract total amounts, taxes, vendor details, currency, and structural line item tables locally.</p>
+                        <span class="learn-more">Open Parser <i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+
+                    <div class="feature-card card-glass" onclick="switchTab('contract')">
+                        <div class="feature-icon"><i class="fa-solid fa-file-contract"></i></div>
+                        <h3>Contract Summarizer</h3>
+                        <p>Process procurement agreements to generate abstractive summaries and extract legal clauses like Liability, Value, and Duration.</p>
+                        <span class="learn-more">Open Summarizer <i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+
+                    <div class="feature-card card-glass" onclick="switchTab('chatbot')">
+                        <div class="feature-icon"><i class="fa-solid fa-comments"></i></div>
+                        <h3>RAG Chatbot</h3>
+                        <p>Index multi-page contracts using FAISS vector storage and ask context-aware questions against legal agreements.</p>
+                        <span class="learn-more">Open Chatbot <i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: EMAIL ANALYZER -->
+            <section id="tab-email" class="tab-panel">
+                <div class="panel-layout">
+                    <div class="panel-input card-glass">
+                        <h3>Input Email Body</h3>
+                        <p class="section-desc">Paste vendor communication or select a sample template below.</p>
+                        
+                        <div class="templates-bar">
+                            <button class="btn-template" onclick="fillEmailTemplate('payment')">Delayed Payment Inquiry</button>
+                            <button class="btn-template" onclick="fillEmailTemplate('quote')">Purchase Quote Request</button>
+                            <button class="btn-template" onclick="fillEmailTemplate('thanks')">Vendor Compliment</button>
+                        </div>
+                        
+                        <textarea id="email-input" placeholder="Paste email content here..."></textarea>
+                        
+                        <button class="btn-primary" id="btn-analyze-email" onclick="runEmailAnalysis()">
+                            <i class="fa-solid fa-magnifying-glass"></i> Analyze Email
+                        </button>
+                    </div>
+
+                    <div class="panel-output card-glass">
+                        <h3>Analysis Results</h3>
+                        <div id="email-output-placeholder" class="output-placeholder">
+                            <i class="fa-solid fa-envelope-circle-check"></i>
+                            <p>Awaiting analysis execution. Enter text and click Analyze.</p>
+                        </div>
+                        
+                        <div id="email-results" class="results-container hidden">
+                            <div class="meta-row">
+                                <div class="meta-pill">
+                                    <span class="pill-label">Category:</span>
+                                    <span class="pill-value badge-category" id="email-category">-</span>
+                                </div>
+                                <div class="meta-pill">
+                                    <span class="pill-label">Priority:</span>
+                                    <span class="pill-value badge-priority" id="email-priority">-</span>
+                                </div>
+                            </div>
+                            
+                            <div class="sentiment-gauge-container">
+                                <h4>Tone Sentiment</h4>
+                                <div class="gauge-bar-bg">
+                                    <div class="gauge-bar-fill" id="email-sentiment-bar"></div>
+                                </div>
+                                <div class="gauge-labels">
+                                    <span id="email-sentiment-val">Neutral</span>
+                                    <span id="email-sentiment-conf">0% Confidence</span>
+                                </div>
+                            </div>
+
+                            <div class="details-section">
+                                <h4>Parsed Action Items</h4>
+                                <ul class="parsed-list" id="email-action-items">
+                                </ul>
+                            </div>
+
+                            <div class="details-section">
+                                <h4>Extracted Key Dates</h4>
+                                <ul class="parsed-list dates" id="email-key-dates">
+                                </ul>
+                            </div>
+                            
+                            <div class="explanation-box">
+                                <span class="exp-title"><i class="fa-solid fa-circle-info"></i> Pipeline Info:</span>
+                                <p id="email-explanation"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: INVOICE EXTRACTOR -->
+            <section id="tab-invoice" class="tab-panel">
+                <div class="panel-layout">
+                    <div class="panel-input card-glass">
+                        <h3>Input Invoice Details</h3>
+                        <p class="section-desc">Upload a PDF invoice or paste the raw text contents.</p>
+                        
+                        <div class="upload-zone" id="invoice-upload-zone">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <p>Drag & Drop Invoice PDF here or <span>Browse Files</span></p>
+                            <input type="file" id="invoice-file" accept=".pdf" class="hidden">
+                        </div>
+                        <div class="file-info hidden" id="invoice-file-info">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            <span id="invoice-filename">invoice.pdf</span>
+                            <button class="btn-clear" onclick="clearInvoiceFile()"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+
+                        <div class="divider"><span>OR PASTE TEXT</span></div>
+
+                        <textarea id="invoice-text" placeholder="Paste invoice text (e.g. ABC Technologies, INV-1234, ₹50,000)..."></textarea>
+                        <div class="template-toolbar">
+                            <button class="btn-tertiary" onclick="fillInvoiceTemplate('sample1')">Sample 1</button>
+                            <button class="btn-tertiary" onclick="fillInvoiceTemplate('sample2')">Sample 2</button>
+                        </div>
+                        
+                        <button class="btn-primary" id="btn-extract-invoice" onclick="runInvoiceExtraction()">
+                            <i class="fa-solid fa-gear"></i> Parse Invoice
+                        </button>
+                    </div>
+
+                    <div class="panel-output card-glass">
+                        <h3>Extracted Entities</h3>
+                        <div id="invoice-output-placeholder" class="output-placeholder">
+                            <i class="fa-solid fa-receipt"></i>
+                            <p>Awaiting invoice parsing. Upload a file or paste text.</p>
+                        </div>
+                        
+                        <div id="invoice-results" class="results-container hidden">
+                            <div class="invoice-summary-header">
+                                <div class="field-item">
+                                    <label>Invoice Number</label>
+                                    <span id="inv-number">-</span>
+                                </div>
+                                <div class="field-item">
+                                    <label>Date</label>
+                                    <span id="inv-date">-</span>
+                                </div>
+                                <div class="field-item highlight">
+                                    <label>Total Amount</label>
+                                    <span id="inv-total">-</span>
+                                </div>
+                            </div>
+                            
+                            <div class="invoice-parties">
+                                <div class="party-block">
+                                    <label><i class="fa-solid fa-building"></i> Vendor (From)</label>
+                                    <span id="inv-vendor">-</span>
+                                </div>
+                                <div class="party-block">
+                                    <label><i class="fa-solid fa-user-tie"></i> Client (To)</label>
+                                    <span id="inv-client">-</span>
+                                </div>
+                            </div>
+                            
+                            <div class="table-section">
+                                <h4>Extracted Line Items</h4>
+                                <div class="table-container">
+                                    <table id="inv-items-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Description</th>
+                                                <th>Qty</th>
+                                                <th>Unit Price</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: CONTRACT SUMMARIZER -->
+            <section id="tab-contract" class="tab-panel">
+                <div class="panel-layout">
+                    <div class="panel-input card-glass">
+                        <h3>Input Procurement Agreement</h3>
+                        <p class="section-desc">Upload a PDF contract or paste the text content.</p>
+                        
+                        <div class="upload-zone" id="contract-upload-zone">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <p>Drag & Drop Contract PDF here or <span>Browse Files</span></p>
+                            <input type="file" id="contract-file" accept=".pdf" class="hidden">
+                        </div>
+                        <div class="file-info hidden" id="contract-file-info">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            <span id="contract-filename">contract.pdf</span>
+                            <button class="btn-clear" onclick="clearContractFile()"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+
+                        <div class="divider"><span>OR PASTE TEXT</span></div>
+
+                        <textarea id="contract-text" placeholder="Paste contract text..."></textarea>
+                        <div class="template-toolbar">
+                            <button class="btn-tertiary" onclick="fillContractTemplate('short')">Short Agreement</button>
+                            <button class="btn-tertiary" onclick="fillContractTemplate('nda')">NDA</button>
+                        </div>
+
+                        <button class="btn-primary" id="btn-summarize-contract" onclick="runContractSummarization()">
+                            <i class="fa-solid fa-compress"></i> Summarize Contract
+                        </button>
+                    </div>
+
+                    <div class="panel-output card-glass">
+                        <h3>Contract Summarization</h3>
+                        <div id="contract-output-placeholder" class="output-placeholder">
+                            <i class="fa-solid fa-file-shield"></i>
+                            <p>Awaiting document processing. Upload a file or paste text.</p>
+                        </div>
+                        
+                        <div id="contract-results" class="results-container hidden">
+                            <div class="summary-paragraph">
+                                <h4>General Summary</h4>
+                                <p id="contract-summary-text"></p>
+                            </div>
+                            
+                            <div class="clauses-section">
+                                <h4>Key Legal Clauses</h4>
+                                <div class="clauses-grid" id="contract-clauses">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 5: RAG CHATBOT -->
+            <section id="tab-chatbot" class="tab-panel">
+                <div class="panel-layout chatbot-layout">
+                    <div class="chatbot-sidebar card-glass">
+                        <h3>1. Load Legal Context</h3>
+                        <p class="section-desc">Index a contract first before asking questions.</p>
+                        
+                        <div class="upload-zone mini" id="chat-upload-zone">
+                            <i class="fa-solid fa-file-arrow-up"></i>
+                            <p>Upload PDF/Text Contract</p>
+                            <input type="file" id="chat-file" accept=".pdf,.txt" class="hidden">
+                        </div>
+                        <div class="file-info hidden" id="chat-file-info">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            <span id="chat-filename">file.pdf</span>
+                            <button class="btn-clear" onclick="clearChatFile()"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                        
+                        <div class="divider"><span>OR USE FIELD</span></div>
+                        <textarea id="chat-text" placeholder="Paste document content..."></textarea>
+                        
+                        <button class="btn-secondary" id="btn-index-contract" onclick="indexContractForChat()">
+                            <i class="fa-solid fa-database"></i> Build Vector Index
+                        </button>
+                        
+                        <div class="index-status status-unindexed" id="index-status">
+                            <i class="fa-solid fa-triangle-exclamation"></i> Contract Unindexed
+                        </div>
+                    </div>
+
+                    <div class="chatbot-chat card-glass">
+                        <div class="chat-header">
+                            <h3>2. Ask Questions</h3>
+                            <span class="chat-status" id="chat-status-indicator">Select and index a contract first</span>
+                        </div>
+                        
+                        <div class="chat-messages" id="chat-messages">
+                            <div class="message system-msg">
+                                <div class="avatar"><i class="fa-solid fa-robot"></i></div>
+                                <div class="msg-bubble">
+                                    <p>Hi! Once you index a contract on the left, I will be ready to answer details regarding its clauses, payment terms, or scope. Ask me anything!</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-input-area">
+                            <input type="text" id="chat-input" placeholder="Type a question (e.g. 'What are the payment terms?', 'What is the duration?')..." disabled onkeydown="checkChatEnter(event)">
+                            <div style="display:flex;gap:8px;align-items:center;margin-left:8px;">
+                                <button class="btn-tertiary" onclick="fillChatTemplate('paymentQ')">Payment Q</button>
+                                <button class="btn-tertiary" onclick="fillChatTemplate('scopeQ')">Scope Q</button>
+                            </div>
+                            <button class="btn-send" id="btn-send-chat" disabled onclick="sendChatMessage()">
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 6: DEVELOPER & SETTINGS -->
+            <section id="tab-api-settings" class="tab-panel">
+                <div class="dev-settings-layout">
+                    <!-- Left: Configuration Panel -->
+                    <div class="settings-card card-glass">
+                        <h3><i class="fa-solid fa-gear"></i> Configuration</h3>
+                        <p class="section-desc">Manage API keys and settings.</p>
+                        
+                        <div class="setting-item">
+                            <label for="gemini-key-input">Google Gemini API Key (Optional)</label>
+                            <div class="password-input-wrapper">
+                                <input type="password" id="gemini-key-input" placeholder="AIzaSy...">
+                                <button class="btn-toggle-pass" onclick="togglePassVisibility('gemini-key-input')"><i class="fa-solid fa-eye"></i></button>
+                            </div>
+                            <span class="help-text">Get your key from <a href="https://makersuite.google.com/app/apikey" target="_blank" style="color: var(--accent-blue); text-decoration: underline;">makersuite.google.com</a>. Enables advanced AI features. Stored locally in your browser only.</span>
+                        </div>
+                        
+                        <button class="btn-primary" onclick="saveSettings()">
+                            <i class="fa-solid fa-floppy-disk"></i> Save & Update
+                        </button>
+                    </div>
+
+                    <!-- Right: Developer Unlock & Guide -->
+                    <div class="developer-card card-glass">
+                        <h3><i class="fa-solid fa-lock"></i> Developer Unlock</h3>
+                        <p class="section-desc">Unlock developer-only API integration guide.</p>
+                        
+                        <div class="dev-unlock-guide">
+                            <div class="guide-step">
+                                <div class="step-num">1</div>
+                                <div class="step-content">
+                                    <h5>Find Your Dev Secret</h5>
+                                    <p>Check your server's <code>.env</code> file for <code>DEV_SECRET=</code> value</p>
+                                </div>
+                            </div>
+                            
+                            <div class="guide-step">
+                                <div class="step-num">2</div>
+                                <div class="step-content">
+                                    <h5>Enter Below</h5>
+                                    <p>Paste the secret key in the field and click Unlock</p>
+                                </div>
+                            </div>
+                            
+                            <div class="guide-step">
+                                <div class="step-num">3</div>
+                                <div class="step-content">
+                                    <h5>Access API Guide</h5>
+                                    <p>View code snippets for all endpoints</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="setting-item" id="dev-auth-section">
+                            <label for="dev-secret-input"><i class="fa-solid fa-key"></i> Developer Secret</label>
+                            <div class="dev-unlock-wrapper">
+                                <input type="password" id="dev-secret-input" placeholder="Enter your dev secret">
+                                <button class="btn-tertiary" onclick="unlockDeveloper()">Unlock</button>
+                            </div>
+                            <div id="dev-unlock-status" class="dev-unlock-status"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Developer API Integration Guide (Locked by default) -->
+                <div id="dev-tools-section" class="developer-api-card card-glass" style="display:none; margin-top: 24px;">
+                    <h3><i class="fa-solid fa-code"></i> API Integration Guide</h3>
+                    <p class="section-desc">Copy and paste these code snippets into your frontend. All endpoints support the optional <code>X-Gemini-API-Key</code> header.</p>
+                    
+                    <div class="endpoint-selector" id="dev-tools">
+                        <button class="btn-endpoint active" onclick="showEndpointCode('email')"><i class="fa-solid fa-envelope"></i> Email</button>
+                        <button class="btn-endpoint" onclick="showEndpointCode('invoice')"><i class="fa-solid fa-file-pdf"></i> Invoice</button>
+                        <button class="btn-endpoint" onclick="showEndpointCode('summarize')"><i class="fa-solid fa-file-contract"></i> Contract</button>
+                        <button class="btn-endpoint" onclick="showEndpointCode('chat')"><i class="fa-solid fa-comments"></i> Chatbot</button>
+                    </div>
+                    
+                    <div class="code-snippet-box">
+                        <div class="code-header">
+                            <span class="lang-tag">JavaScript (Fetch API)</span>
+                            <button class="btn-copy" onclick="copyCodeSnippet()"><i class="fa-solid fa-copy"></i> Copy Code</button>
+                        </div>
+                        <pre><code id="code-snippet-display"></code></pre>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Script Files -->
+    <script src="app.js?v=2"></script>
+</body>
+</html>
