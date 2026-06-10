@@ -42,7 +42,7 @@ else:
 from utils.email_analyzer import analyze_email_procurement
 from utils.invoice_extractor import extract_invoice_data
 from utils.summarizer import summarize_contract
-from utils.rag_chatbot import rag_chatbot_instance
+#from utils.rag_chatbot import rag_chatbot_instance
 
 app = FastAPI(
     title="AI Procurement Assistant NLP Hub",
@@ -170,6 +170,7 @@ async def index_contract_endpoint(
         raise HTTPException(status_code=400, detail="Invalid text content for indexing.")
         
     try:
+        from utils.rag_chatbot import rag_chatbot_instance
         result = rag_chatbot_instance.index_contract(contract_text)
         return JSONResponse(content=result)
     except Exception as e:
@@ -181,6 +182,7 @@ async def chat_contract_endpoint(
     x_gemini_api_key: Optional[str] = Header(None)
 ):
     try:
+        from utils.rag_chatbot import rag_chatbot_instance
         result = rag_chatbot_instance.query(request.question, api_key=x_gemini_api_key)
         return JSONResponse(content=result)
     except Exception as e:
