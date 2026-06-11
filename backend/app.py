@@ -216,22 +216,7 @@ async def dev_auth_endpoint(payload: dict = Body(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# Create static directory if not exists
-os.makedirs("static", exist_ok=True)
-
-# Mount static files at the root
-
-FRONTEND_DIR = os.path.join(
-    os.path.dirname(__file__),
-    "..",
-    "frontend"
-)
-
-app.mount(
-    "/",
-    StaticFiles(directory=FRONTEND_DIR, html=True),
-    name="static"
-)
+# Frontend is deployed separately
 
 if __name__ == "__main__":
     import uvicorn
