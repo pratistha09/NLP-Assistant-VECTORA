@@ -66,12 +66,25 @@ class ContractRAG:
             self._lazy_load_model()
             
             # Split text into chunks
-            self.chunks = self.chunk_text(text)
+            paragraphs = [
+                p.strip()
+                for p in re.split(r'\n\s*\n', text)
+                if p.strip()
+                ]
+            
+            if len(paragraphs) >= 2:
+                self.chunks = paragraphs
+            else:
+                self.chunks = self.chunk_text(text)
             if not self.chunks:
                 return {"status": "error", "message": "Failed to extract chunks from text."}
                 
             # Generate embeddings
-            embeddings = self.model.encode(self.chunks)
+            embeddings = self.model.encode(
+                self.chunks,
+                convert_to_numpy=True,
+                normalize_embeddings=True
+            )
             self.dimension = embeddings.shape[1]
             
             # Build FAISS index
@@ -102,7 +115,11 @@ class ContractRAG:
             self._lazy_load_model()
             
             # 1. Retrieve top-k chunks
-            q_emb = self.model.encode([question])
+            q_emb = self.model.encode(
+                [question],
+                convert_to_numpy=True,
+                normalize_embeddings=True
+            )
             distances, indices = self.index.search(np.array(q_emb).astype("float32"), min(k, len(self.chunks)))
             
             retrieved_chunks = []
@@ -150,12 +167,38 @@ class ContractRAG:
                     
             # Local/Offline Response Formulation
             # We return the best retrieved passages cleanly
-            answer = "Based on local semantic search, here are the most relevant clauses found in the contract:\n\n"
+            best_chunk = retrieved_chunks[0]
+            
+            answer = (
+                f"Answer based on the contract:\n\n"
+                f"{best_chunk}"
+            )
             for i, chunk in enumerate(retrieved_chunks):
                 answer += f"**Relevant Clause {i+1}:** {chunk}\n\n"
                 
             answer += "*Note: Running in offline local search mode. To generate natural language answers synthesis, please supply a Gemini API Key in Settings.*"
             
+            question_lower = question.lower()
+            
+            if "duration" in question_lower or "term" in question_lower:
+                keyword = ["month", "year", "duration", "effective"]
+            elif "payment" in question_lower or "amount" in question_lower:
+                keyword = ["payment", "fee", "price", "amount", "₹"]
+            elif "penalty" in question_lower:
+                keyword = ["penalty", "delay", "breach"]
+            else:
+                keyword = []
+            filtered = []
+                
+            for chunk in retrieved_chunks:
+                if any(k.lower() in chunk.lower() for k in keyword):
+                    filtered.append(chunk)
+                    
+            if filtered:
+                best_chunk = filtered[0]
+            else:
+                best_chunk = retrieved_chunks[0]
+
             return {
                 "answer": answer,
                 "sources": retrieved_chunks,
