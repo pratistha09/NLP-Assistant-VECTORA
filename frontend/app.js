@@ -5,15 +5,7 @@ let selectedContractFile = null;
 let selectedChatFile = null;
 let isContractIndexed = false;
 let currentEndpointCode = 'email';
-const API_BASE_URL = (() => {
-    const origin = window.location.origin;
-
-    if (origin.includes("railway.app")) {
-        return origin;
-    }
-
-    return "https://nlp-assistant-vectora-production.up.railway.app";
-})();
+const API_BASE_URL = "https://nlp-assistant-vectora-production.up.railway.app";
 
 // Page Title Mapping
 const PAGE_TITLES = {
