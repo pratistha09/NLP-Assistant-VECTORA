@@ -40,7 +40,7 @@ Developer Unlock gives you access to:
 # Open your .env file at project root
 cat .env
 # Look for this line:
-# DEV_SECRET=peecee09
+# DEV_SECRET=your_dev_secret_key
 ```
 
 **Step 2: Go to Settings Tab**
