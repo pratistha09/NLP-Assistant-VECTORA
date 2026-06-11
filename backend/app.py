@@ -39,10 +39,10 @@ else:
             os.environ['DEV_SECRET'] = gen
 
 # Import NLP utilities
-from backend.utils.email_analyzer import analyze_email_procurement
-from backend.utils.invoice_extractor import extract_invoice_data
-from backend.utils.summarizer import summarize_contract
-from backend.utils.rag_chatbot import rag_chatbot_instance
+from utils.email_analyzer import analyze_email_procurement
+from utils.invoice_extractor import extract_invoice_data
+from utils.summarizer import summarize_contract
+from utils.rag_chatbot import rag_chatbot_instance
 
 app = FastAPI(
     title="AI Procurement Assistant NLP Hub",
@@ -151,7 +151,7 @@ async def index_contract_endpoint(
         source = save_upload_file(file)
         # Read text from PDF or text file
         if file.filename.lower().endswith(".pdf"):
-            from backend.utils.invoice_extractor import extract_text_from_pdf
+            from utils.invoice_extractor import extract_text_from_pdf
             contract_text = extract_text_from_pdf(source)
         else:
             try:
