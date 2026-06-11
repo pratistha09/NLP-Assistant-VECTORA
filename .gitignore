@@ -15,7 +15,6 @@ venv/
 *.pyc
 *.pyo
 __pycache__/
-*.pyc
 
 # Uploads & Generated Files
 
