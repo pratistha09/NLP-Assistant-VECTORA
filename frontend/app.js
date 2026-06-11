@@ -29,7 +29,7 @@ const PAGE_TITLES = {
 const CODE_SNIPPETS = {
     email: `// Integrate Email Analyzer Endpoint
 const analyzeEmail = async (emailText, geminiKey = "") => {
-  const response = await fetch("http://127.0.0.1:8000/api/analyze-email", {
+  const response = await fetch("http://nlp-assistant-vectora-production.up.railway.app/api/analyze-email", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -52,7 +52,7 @@ const extractInvoice = async (invoiceFileOrText, geminiKey = "") => {
     formData.append("text", invoiceFileOrText);
   }
   
-  const response = await fetch("http://127.0.0.1:8000/api/extract-invoice", {
+  const response = await fetch("http://nlp-assistant-vectora-production.up.railway.app/api/extract-invoice", {
     method: "POST",
     headers: {
       "X-Gemini-API-Key": geminiKey // optional
@@ -74,7 +74,7 @@ const summarizeContract = async (contractFileOrText, geminiKey = "") => {
     formData.append("text", contractFileOrText);
   }
   
-  const response = await fetch("http://127.0.0.1:8000/api/summarize-contract", {
+  const response = await fetch("http://nlp-assistant-vectora-production.up.railway.app/api/summarize-contract", {
     method: "POST",
     headers: {
       "X-Gemini-API-Key": geminiKey // optional
@@ -95,7 +95,7 @@ const indexContract = async (fileOrText) => {
   } else {
     formData.append("text", fileOrText);
   }
-  const res = await fetch("http://127.0.0.1:8000/api/index-contract", {
+  const res = await fetch("http://nlp-assistant-vectora-production.up.railway.app/api/index-contract", {
     method: "POST",
     body: formData
   });
@@ -104,7 +104,7 @@ const indexContract = async (fileOrText) => {
 
 // 2. Query chatbot against indexed document:
 const queryChatbot = async (question, geminiKey = "") => {
-  const response = await fetch("http://127.0.0.1:8000/api/chat-contract", {
+  const response = await fetch("http://nlp-assistant-vectora-production.up.railway.app/api/chat-contract", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
