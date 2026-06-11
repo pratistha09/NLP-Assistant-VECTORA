@@ -6,13 +6,13 @@ let selectedChatFile = null;
 let isContractIndexed = false;
 let currentEndpointCode = 'email';
 const API_BASE_URL = (() => {
-    try {
-        const origin = window.location.origin;
-        // If the page is already served from backend (port 8000), use that origin.
-        if (origin && origin !== 'null' && origin.includes(':8000')) return origin;
-    } catch (e) {}
-    // Default to backend running locally on port 8000 (uvicorn)
-    return 'http://127.0.0.1:8000';
+    const origin = window.location.origin;
+
+    if (origin.includes("railway.app")) {
+        return origin;
+    }
+
+    return "https://nlp-assistant-vectora-production.up.railway.app";
 })();
 
 // Page Title Mapping
