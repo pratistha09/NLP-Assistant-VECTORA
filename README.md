@@ -6,9 +6,7 @@ An AI-powered procurement automation platform developed during the BPAAS Interns
 
 ## Live Demo
 
-**Frontend:** [nlp-assistant-vectora.vercel.app]
-
-**Backend API:** [Add Railway Link Here]
+**Live Demo URL:** [nlp-assistant-vectora.vercel.app]
 
 ---
 
