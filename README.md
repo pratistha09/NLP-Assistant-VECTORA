@@ -1,182 +1,149 @@
-# NLP Assistant Vectora
+# AI Procurement Assistant
 
-An enterprise-focused AI and Natural Language Processing platform designed to automate procurement and business process workflows through intelligent document understanding, semantic search, and conversational AI.
-
----
-
-## Overview
-
-NLP Assistant Vectora is a FastAPI-powered intelligent assistant developed to enhance procurement and business process automation workflows.
-
-The platform leverages modern Natural Language Processing (NLP), semantic retrieval, and document intelligence techniques to transform unstructured business documents into actionable insights.
-
-Designed as part of a Business Process as a Service (BPaaS) ecosystem, the solution enables organizations to automate repetitive tasks, reduce manual effort, and improve operational efficiency.
+An AI-powered procurement automation platform developed during the BPAAS Internship. The application helps procurement teams automate email analysis, invoice data extraction, contract summarization, and intelligent contract question-answering using Natural Language Processing (NLP) and Retrieval-Augmented Generation (RAG).
 
 ---
 
-## Key Features
+## Live Demo
 
-### Intelligent Invoice Processing
+**Frontend:** [nlp-assistant-vectora.vercel.app]
 
-* Invoice information extraction
-* Vendor identification
-* Amount and payment detection
-* Automated document parsing
-
-### Email Intelligence
-
-* Email classification
-* Procurement inquiry categorization
-* Sentiment analysis
-* Business communication insights
-
-### Named Entity Recognition (NER)
-
-* Vendor extraction
-* Organization detection
-* Date recognition
-* Financial entity identification
-
-### Semantic Search & Retrieval
-
-* Vector-based document search
-* Context-aware retrieval
-* Similarity matching using embeddings
-
-### RAG-Powered Assistant
-
-* Retrieval-Augmented Generation architecture
-* Document question answering
-* Knowledge retrieval from uploaded business documents
-* Interactive conversational interface
-
-### Web Application Interface
-
-* FastAPI backend
-* Browser-based frontend
-* API-driven architecture
-* Real-time processing
+**Backend API:** [Add Railway Link Here]
 
 ---
 
-## System Architecture
+## Features
 
-User Uploads Document
-↓
-Document Processing Layer
-↓
-NLP Extraction Pipeline
-↓
-Vector Database & Retrieval
-↓
-Semantic Search Engine
-↓
-Business Intelligence Layer
-↓
-Interactive User Interface
+### 1. Email Analyzer
+
+Analyze procurement-related emails and automatically identify:
+
+* Sentiment (Positive, Negative, Neutral)
+* Priority Level
+* Procurement Category
+* Action Items
+* Important Dates
+
+#### Example Output
+
+* Sentiment: Negative
+* Category: Payment Issue
+* Priority: High
+* Action Item: Resolve delayed payment
+
+---
+
+### 2. Invoice Data Extraction
+
+Extract structured information from:
+
+* PDF invoices
+* Text invoices
+
+Detected fields include:
+
+* Invoice Number
+* Vendor Name
+* Invoice Date
+* Due Date
+* Total Amount
+* GST Information
+
+---
+
+### 3. Contract Summarizer
+
+Generate concise contract summaries and identify key clauses:
+
+* Parties Involved
+* Contract Duration
+* Financial Obligations
+* Scope of Services
+* Termination Conditions
+* Dispute Resolution
+
+Supports both:
+
+* PDF Contracts
+* Plain Text Contracts
+
+---
+
+### 4. AI Contract Chatbot (RAG)
+
+Upload and index a contract, then ask questions such as:
+
+* What is the payment schedule?
+* What are the termination conditions?
+* Is there a penalty clause?
+* What are the vendor responsibilities?
+
+The chatbot performs semantic search over contract content and returns the most relevant contract clauses.
 
 ---
 
 ## Technology Stack
 
+### Frontend
+
+* HTML5
+* CSS3
+* JavaScript
+
 ### Backend
 
-* Python
 * FastAPI
-* Uvicorn
+* Python
 
 ### NLP & AI
 
-* Transformers
 * Sentence Transformers
-* spaCy
 * FAISS
-* PyTorch
+* Transformers
+* spaCy
+* PDFPlumber
 
-### Frontend
+### Deployment
 
-* HTML
-* CSS
-* JavaScript
-
-### Infrastructure
-
-* Git
-* GitHub
-* Render
+* Vercel (Frontend)
+* Railway (Backend)
 
 ---
 
-## Project Structure
+## System Architecture
 
-frontend/
-├── User Interface
-
-backend/
-├── FastAPI Server
-├── NLP Modules
-├── Data Processing
-└── API Endpoints
-
-docs/
-└── Project Documentation
+User Uploads Document -> Document Processing Layer -> NLP Extraction Pipeline -> Vector Database & Retrieval -> Semantic Search Engine -> Business Intelligence Layer -> Interactive User Interface
 
 ---
 
-## Installation
+## Screenshots
 
-Clone the repository
+### Dashboard
 
-git clone <repository-url>
+![](images/2026-06-13-19-07-24.png)
 
-Create virtual environment
 
-python -m venv venv
+### Email Analyzer
 
-Activate environment
+![](images/2026-06-13-19-00-04.png)
 
-Windows:
-venv\Scripts\activate
 
-Install dependencies
+### Invoice Extraction
 
-pip install -r requirements.txt
+![](images/[Insert%20Screenshot].png)
 
-Run application
 
-python -m uvicorn backend.app:app --reload
+### Contract Summarization
 
----
+![](images/2026-06-13-19-02-22.png)
 
-## API Health Check
 
-GET /api/health
+### RAG Contract Chatbot
 
-Response:
-
-{
-"status": "healthy",
-"message": "Backend is running"
-}
-
----
-
-## Future Enhancements
-
-* Multi-document knowledge bases
-* Contract intelligence engine
-* Procurement recommendation system
-* LLM integration
-* Workflow automation pipelines
-* Cloud-native deployment
-* Enterprise authentication
+![](images/2026-06-13-19-04-13.png)
 
 ---
 
 ## Author
 
-Pratistha Chaira
-
-AI & NLP Developer
-
-Focused on Natural Language Processing, Intelligent Automation, Retrieval-Augmented Generation (RAG), and Enterprise AI Systems.
+**Pratistha Chaira**
